@@ -1,0 +1,136 @@
+<?php $_helper = Mage::helper('catalog/category') ?>
+<?php $_categories = $_helper->getStoreCategories() ?>
+
+<?php if (count($_categories) > 0): ?>
+<?php endif; ?>
+<div class="container">
+  <form id="regForm" action="<?php echo $this->getActionOfForm();?>">
+    <!-- <h1>Tell us what you'd like to address</h1> -->
+    <div class="crystal-vec center-block m-b-20 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" fill="#ffffff" height="70"><path d="M24.48 0a.29.29 0 0 0-.28.29.29.29 0 0 0 .28.28.29.29 0 0 0 .29-.28.29.29 0 0 0-.29-.29zM4.8.29a.29.29 0 0 0-.28.28.29.29 0 0 0 .29.29.29.29 0 0 0 .27-.29.29.29 0 0 0-.27-.28zm7.73.78L2.63 6.8v6.46a.29.29 0 0 0-.03 0 .29.29 0 0 0-.02 0v-.01a.29.29 0 0 0-.27.3.29.29 0 0 0 .29.27.29.29 0 0 0 .03 0v4.4l.08.05 4.27 2.47a.29.29 0 0 0-.08.2.29.29 0 0 0 .27.29.29.29 0 0 0 .28-.22l5.08 2.93 9.9-5.72v-.07h.05l-.05-.09v-7.78a.29.29 0 0 0 .25.15.29.29 0 0 0 .28-.28.29.29 0 0 0-.28-.28.29.29 0 0 0-.03 0 .29.29 0 0 0-.22.15V6.79zm.06.42l4.43 7.68-4.58 2.12-4.33-2.04zm-.33.1L7.89 9.14 3.08 6.88zm9.42 0a.45.45 0 0 0-.42.45.45.45 0 0 0 .45.45.45.45 0 0 0 .46-.45.45.45 0 0 0-.46-.45.45.45 0 0 0-.03 0zm-8.7.1l9 5.2-4.74 2.18zm-6.44 2a.29.29 0 0 0-.26.28.29.29 0 0 0 .27.29.29.29 0 0 0 .29-.29.29.29 0 0 0-.29-.28zm14.27 2.6a.29.29 0 0 0-.28.28.29.29 0 0 0 .28.29.29.29 0 0 0 .28-.29.29.29 0 0 0-.28-.27zM.28 6.75a.29.29 0 0 0-.28.29.29.29 0 0 0 .28.28.29.29 0 0 0 .28-.28.29.29 0 0 0-.28-.29zm21.84.34v10.44l-4.76-8.24zm-19.18 0l4.83 2.27-4.83 8.37zM9.55 8.3a.47.47 0 0 0-.46.46.47.47 0 0 0 .46.47.47.47 0 0 0 .47-.47.47.47 0 0 0-.47-.46zm7.6 1.08l4.92 8.52H12.6l.05-6.44zm-9.16.08l4.42 2.08-.05 6.36H3.11zm-.44 6.92a.47.47 0 0 0-.47.47.47.47 0 0 0 .47.47.47.47 0 0 0 .47-.47.47.47 0 0 0-.47-.47zm11.71.94a.29.29 0 0 0-.26.28.29.29 0 0 0 .28.29.29.29 0 0 0 .29-.29.29.29 0 0 0-.29-.28.29.29 0 0 0-.02 0zm-16.14.82h9.24l-.04 5.31zm9.48 0h9.34l-9.38 5.41zM1.05 21.89a.29.29 0 0 0-.26.29.29.29 0 0 0 .28.27.29.29 0 0 0 .28-.27.29.29 0 0 0-.28-.29.29.29 0 0 0-.02 0zm19.63 1.86a.29.29 0 0 0-.27.29.29.29 0 0 0 .29.28.29.29 0 0 0 .27-.28.29.29 0 0 0-.27-.29.29.29 0 0 0-.02 0zm-4.3.69a.29.29 0 0 0-.27.27.29.29 0 0 0 .29.29.29.29 0 0 0 .27-.29.29.29 0 0 0-.27-.27.29.29 0 0 0-.02 0z" /></svg>
+    </div>
+    <p class="clr-white font-weight-bold m-b-20 step-counter text-center text-uppercase">Step <span class="curr-step">1</span> out of <span class="total-steps">3</span></p>
+    <!-- One "tab" for each step in the form: -->
+    <div class="tab m-b-20" id="cat">      
+      <h1 class="med-title clr-white m-b-30">Tell us what you'd like to address</h1>
+      <p class="clr-white font-size-18 m-b-50 text-center">Select each boxes of you want to address <i class="fa fa-question-circle"></i></p>
+      <?php if (count($_categories) > 0): ?>
+
+      <!-- Code change -->
+
+      <?php $count=0;?>
+      <div class="row">
+        <?php foreach($_categories as $_category): ?>
+        <div class="col-md-3 col-sm-4 col-xs-12">
+          <div class="form-group">
+            <label for="<?php echo 'category_'.$count?>" class="align-items-center text-uppercase btn-style-input-control checkbox-control d-flex justify-content-center text-center transparent-bg">
+              <input type="checkbox" value="<?php echo $_category->getEntityId()?>" oninput="this.className = ''" name="category[]"
+                data-catname="<?php echo $_category->getName() ?>" id="<?php echo 'category_'.$count?>">
+              <span class="control-indicator"></span>
+              <span>
+                <?php echo $_category->getName() ?></span>
+            </label>
+          </div>
+        </div>
+        <?php $count++;endforeach; ?>
+      </div>
+
+      <!-- Code change END -->
+
+      <?php endif; ?>
+    </div>
+
+
+    <div class="tab m-b-20">
+      <h1 class="med-title clr-white m-b-50">Arrange In the Order of importance</h1>
+      <ul id="selectedcat" class="sorting-list transparent-bg center-block"></ul>
+    </div>
+
+    <div class="tab m-b-20">
+      <h1 class="med-title clr-white m-b-50">Just Few More Question.!</h1>
+      <p class="clr-white font-size-18 m-b-50 text-center">Before we proceed, we see that you want to WEAR your crystals (we love to also!)</p>
+      <p class="font-weight-bold text-theme-light text-uppercase">Are you male?</p>
+      <select name="gender" class="form-control theme-style m-b-20">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+
+      <p class="font-weight-bold text-theme-light text-uppercase">Do you want neckless or bracelet?</p>
+      <select name="pro_type" class="form-control theme-style m-b-20">
+        <option value="Necklace">Necklace</option>
+        <option value="Bracelet">Bracelet</option>
+      </select>
+
+      <p class="font-weight-bold text-theme-light text-uppercase">Small Medium Large?</p>
+      <select name="pro_size" class="form-control theme-style m-b-20">
+        <option value="Small">Small</option>
+        <option value="Medium">Medium</option>
+        <option value="Large">Large</option>
+      </select>
+    </div>
+
+    
+    <div class="align-items-center d-flex justify-spacebetween xs-flex-column">
+        <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="align-items-center btn btn-primary btn-round btn-transparent d-flex font-weight-bold text-uppercase m-b-10"><i class="la la-2x la-arrow-left m-r-10"></i>Go back</button>
+        <button type="button" id="nextBtn" onclick="nextPrev(1)" class="align-items-center btn btn-grad btn-primary btn-round d-flex font-weight-bold text-uppercase m-b-10">Proceed <i class="la la-2x la-arrow-right m-l-10"></i></button>
+    </div>
+    
+
+    <!-- Circles which indicates the steps of the form: -->
+    <!-- <div style="text-align:center;margin-top:40px;">
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+    </div> -->
+
+  </form>
+</div>
+
+<!-- Crystal grid -->
+<!-- <div>
+  <p class="clr-white font-weight-bold m-b-20 step-counter text-center text-uppercase">result</p>
+  <h1 class="med-title clr-white m-b-50">Select the crystal that suits your need!</h1>
+  <p class="clr-white font-size-18 m-b-50 text-center">Select the stones that speak to you based on their mb_internal_encoding <i class="fa fa-question-circle"></i></p>
+  <div class="row d-flex flex-wrap m-b-20">
+  <?php //$crysName = array("Citrine","Amethyst","Jade","Black Tourmaline","Rhodochrosite","Turquenite","Scolecite","Lazurite","Variscite");?>
+    <?php //for ($x = 0; $x < 9; $x++) { ?>
+    <div class="col-sm-4 col-xs-12 m-b-20">
+      <div class="height-full select-crystal-box">
+        <h3 class="m-t-0 m-b-40 font-weight-500 text-center crystal-title text-primary-lite font-size-30"><?php //echo $crysName[$x]; ?></h3>
+        <label for="" class="clr-white crystal-desc font-size-18 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</label>
+        <img src="./media/wysiwyg/crystal_img/polished-citrine-gem.png" alt="<?php //echo 'crystal_'.$x?>" class="img-responsive center-block m-b-40 crystal-img" />
+        <label for="<?php //echo 'crystal_'.$x?>" class="align-items-center text-uppercase btn-style-input-control control-round control-check-select checkbox-control d-flex justify-content-center text-center transparent-bg">
+          <input type="checkbox" name="crystal[]" id="<?php //echo 'crystal_'.$x?>" class="">
+          <span class="control-indicator"></span>
+          <span class="lbl font-size-18">Select</span>
+          <span class="icon-check"><i class="fa fa fa-check-circle fa-3x clr-white"></i></span>
+        </label>
+      </div>
+    </div>
+    <?php //} ?>
+  </div>
+  <div class="text-center">
+    <button type="button" id=""class="btn btn-grad btn-primary btn-round font-weight-bold text-uppercase">show recommendations</button>
+  </div>
+</div> -->
+<!-- Crystal grid END -->
+
+<style>
+  #dvNewsLetter {
+    display: none
+  }
+</style>
+<!----------->
+<script type="text/javascript">
+  jQuery(document).ready(function () {
+    //console.log( "ready!" );
+    jQuery("#selectedcat").sortable({
+        handle: ".handle-grid",
+        placeholder: "ui-state-highlight",
+        items: '> li',
+        start: function (ui, elem) {
+          elem.placeholder.height(elem.item.height()+'px');
+        }
+    });
+  });
+</script>

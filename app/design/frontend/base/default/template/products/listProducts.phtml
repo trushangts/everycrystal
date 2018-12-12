@@ -1,0 +1,126 @@
+<?php 
+
+    $_postdata = $this->getRequest()->getParams();
+    //print_r($_postdata);
+
+    $products = Mage::getModel('catalog/category')->load($category_id)
+     ->getProductCollection()
+    ->addAttributeToSelect('*')
+    ->addAttributeToFilter('status', 1) // enabled
+    ->addAttributeToFilter('visibility', 4) //visibility in catalog,search
+    ->setOrder('price', 'ASC'); //sets the order by price
+
+     $collection = Mage::getModel('catalog/product')->getCollection()
+          ->joinField('category_id', 'catalog/category_product', 'category_id', 'product_id = entity_id', null, 'left')
+          ->addAttributeToFilter('category_id', array('in' => $_postdata['category']))
+      /*    ->addAttributeToSelect('gender')
+          ->addAttributeToFilter('gender', array('eq' =>
+                                                          Mage::getResourceModel('catalog/product')
+                                                          ->getAttribute('gender')
+                                                          ->getSource()
+                                                          ->getOptionId($_postdata['gender'])
+
+                                ))
+          ->addAttributeToSelect('pro_type')
+          ->addAttributeToFilter('pro_type', array('eq' =>
+                                                          Mage::getResourceModel('catalog/product')
+                                                          ->getAttribute('pro_type')
+                                                          ->getSource()
+                                                          ->getOptionId($_postdata['pro_type'])
+
+                                ))
+          ->addAttributeToSelect('pro_size')
+          ->addAttributeToFilter('pro_size', array('eq' =>
+                                                          Mage::getResourceModel('catalog/product')
+                                                          ->getAttribute('pro_size')
+                                                          ->getSource()
+                                                          ->getOptionId($_postdata['pro_size'])
+
+                                ))*/
+          ->addAttributeToSelect(array('name', 'price'));
+          //print_r($collection->getData());
+          $collection->getSelect()->group('e.entity_id');
+?>
+
+<?php 
+      $toolbar = Mage::getBlockSingleton('catalog/product_list')->getToolbarBlock();
+      $toolbar->setCollection($collection);
+      $toolbar->setChild('product_list_toolbar_pager');
+      echo $toolbar->toHtml();
+?>
+
+<!-- <?php if($this->getMode()!='grid'): ?>
+      <p>ONE</p>
+<?php else: ?>
+      <p>TWO</p>
+<?php endif; ?> -->
+
+<?php if(!$collection->count()): ?>
+<p class="note-msg">
+    <?php echo $this->__('There are no products matching the selection.') ?>
+</p>
+<?php else: ?>
+
+<?php foreach ($collection as $_product): ?>
+<div class="row d-flex flex-wrap m-b-20">
+    <div class="col-sm-4 col-xs-12 m-b-20">
+        <div class="height-full select-crystal-box">
+            <h3 class="m-t-0 m-b-40 font-weight-500 text-center crystal-title text-primary-lite font-size-30">
+                <?php echo $_product->getName();?>
+            </h3>
+            <img src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image')->resize(150,150)?>" alt=""
+                class="img-responsive center-block m-b-40 crystal-img" />
+            <p class="text-center clr-white font-size-16 m-b-20">
+                <?php 
+            $getPrice =  "$" . $_product->getPrice();
+            $snip_string = substr($getPrice , 0 , -2); 
+            echo $snip_string;
+            ?>
+            </p>
+            <div class="text-center">
+                <button type="button" id="" title="<?php echo $this->__('Add to Cart') ?>" class="btn btn-bordered btn-primary btn-round font-weight-bold text-uppercase"
+                    onclick="setLocation('<?php echo $this->helper('checkout/cart')->getAddUrl($_product) ?>')">
+                    <?php echo $this->__('Add to Cart') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='item'>
+    <img src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image')->resize(150,150)?>" />
+    <span class='prod_name'>
+        <a href="<?php echo $_product->getProductUrl();?>">
+            <?php echo $_product->getName();   //get product name ?></a>
+    </span>
+    <span class='prod_price'>
+        <?php 
+            $getPrice =  "$" . $_product->getPrice();
+            $snip_string = substr($getPrice , 0 , -2); 
+            echo $snip_string;
+            ?>
+    </span>
+
+    <?php 
+          //print_r($_product->getData());
+          //$attributes = $_product->getAttributes();
+          //print_r($_product->getData());
+        ?>
+
+    <?php if($_product->isSaleable()): ?>
+    <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->helper('checkout/cart')->getAddUrl($_product) ?>')">
+        <span>
+            <?php echo $this->__('Add to Cart') ?>
+        </span>
+    </button>
+    <?php else: ?>
+    <p class="availability out-of-stock"><span>
+            <?php echo $this->__('Out of stock') ?></span></p>
+    <?php endif; ?>
+</div>
+<?php endforeach; ?>
+<?php endif; ?>
+<style>
+  #dvNewsLetter {
+    display: none
+  }
+</style>

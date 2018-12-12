@@ -1,0 +1,35 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">   
+  <products_index_index>   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/1column.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+          <block type="products/index" name="products_index" template="products/index.phtml"/>   
+    </reference>   
+     <reference name="head">
+            <action method="addJs">
+              <script>tech/products/techproducts.js</script>
+            </action>
+            <action method="addCss">
+              <stylesheet>css/tech/products/techproducts.css</stylesheet>
+            </action>
+      </reference>
+  </products_index_index>   
+  
+  <products_index_step2>   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/1column.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+      <block type="catalog/product_list" name="products_index" template="products/listProducts.phtml"/>   
+    </reference>   
+     <reference name="head">
+            <action method="addCss">
+              <stylesheet>css/tech/products/techproducts.css</stylesheet>
+            </action>
+      </reference>
+  </products_index_step2>   
+
+</layout>   
+	
